@@ -9,6 +9,9 @@
   },
   "author": "Silvanus",
   "license": "MIT",
+  "engines": {
+    "node": "14.4.0"
+  },
   "dependencies": {
     "body-parser": "^1.19.0",
     "ejs": "^3.1.3",
