@@ -12,7 +12,7 @@
 
 
     <div class="box" id="heading">
-        <h1> <%= today %> </h1>
+        <h1> <%= listTitle %> </h1>
     </div>
 
 
@@ -31,6 +31,7 @@
                     <button type="submit" name="checkbox" value="<%= item._id %>" class="del-btn">x</button>
                     <p> <%= item.name %> </p>
                 </div>
+                <input type="hidden" name="listName" value="<%= listTitle %>"></input>
             </form>
 
 
@@ -48,7 +49,7 @@
 
         <form action="/" method="POST" class="newItem form-padding">
             <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
-            <button type="submit">+</button>
+            <button name="list" value="<%= listTitle %>" type="submit">+</button>
         </form>
     </div>
 

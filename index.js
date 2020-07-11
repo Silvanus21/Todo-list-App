@@ -1,20 +1,23 @@
 const express = require("express")
 const bodyParser = require("body-parser")
-const morgan = require("morgan")
+// const morgan = require("morgan")
 const mongoose = require("mongoose")
+const _ = require("lodash")
 
 
 const app = express()
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(morgan("dev"))
+// app.use(morgan("dev"))
 
 app.use(express.static(__dirname + "/public"))
 app.set("view engine", "ejs")
 
+let today = ""
+
 
 // connecting to the DB
 mongoose.connect("mongodb://localhost:27017/itemsDB", {
-    useNewUrlParser: true, useUnifiedTopology: true
+    useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false
 })
     .then(() => {
         console.log(`DB Connected`);
@@ -47,6 +50,41 @@ const item3 = new Item({
 const itemArray = [item1, item2, item3]
 
 
+//custom list schema...
+const customListSchema = new mongoose.Schema({
+    name: String,
+    items: [itemSchema]
+})
+
+const List = mongoose.model("List", customListSchema)
+
+// custom lists....
+
+app.get("/:customList", (req, res) => {
+
+    const customListName = _.capitalize(req.params.customList)
+
+    List.findOne({ name: customListName }, (err, foundItem) => {
+        if (!err) {
+
+            if (!foundItem) {
+                const list = new List({
+                    name: customListName,
+                    items: itemArray
+                })
+
+                list.save()
+                res.redirect(`/${customListName}`)
+            }
+            else {
+                res.render("list", { listTitle: foundItem.name, newItems: foundItem.items })
+            }
+        }
+    })
+})
+
+
+
 app.get("/", (req, res) => {
     const day = new Date()
 
@@ -56,7 +94,7 @@ app.get("/", (req, res) => {
         month: "long"
     }
 
-    const today = day.toLocaleDateString("us-en", options)
+    today = day.toLocaleDateString("us-en", options)
 
 
     Item.find({}, (err, foundItems) => {
@@ -69,10 +107,9 @@ app.get("/", (req, res) => {
                 }
             })
             res.redirect("/")
-            // continue
         }
         else {
-            res.render("list", { today: today, newItems: foundItems })
+            res.render("list", { listTitle: today, newItems: foundItems })
         }
 
     })
@@ -82,6 +119,7 @@ app.get("/", (req, res) => {
 
 app.post("/", (req, res) => {
     const newItem = req.body.newItem
+    const listName = req.body.list
 
     if (newItem.trim() !== "") {
 
@@ -89,9 +127,18 @@ app.post("/", (req, res) => {
             name: newItem
         })
 
-        tempItem.save()
+        if (listName === today) {
+            tempItem.save()
+            res.redirect("/")
+        }
+        else {
+            List.findOne({ name: listName }, (err, foundList) => {
+                foundList.items.push(tempItem)
+                foundList.save()
+                res.redirect(`/${listName}`)
+            })
+        }
 
-        res.redirect("/")
     }
     else {
         console.log("Enter some text to add to the list.")
@@ -103,12 +150,29 @@ app.post("/", (req, res) => {
 
 app.post("/delete", (req, res) => {
     const itemToBeRemoved = req.body.checkbox
+    const listName = req.body.listName
 
-    Item.findByIdAndRemove(itemToBeRemoved, (err) => {
-        if (!err) console.log("successfully removed item")
 
-        res.redirect("/")
-    })
+    if (listName === today) {
+        Item.findByIdAndRemove(itemToBeRemoved, (err) => {
+            if (!err) console.log("successfully removed item")
+
+            res.redirect("/")
+        })
+    }
+    else {
+        List.update({ name: listName }, { $pull: { items: { _id: itemToBeRemoved } } }, (err, foundItem) => {
+            if (!err)
+            res.redirect(`/${listName}`)
+        })
+
+        // List.findOne({name : listName}, (err, foundList) => {
+        //     if(!err){
+        //         foundList.filter
+        //     }
+        // })
+    }
+
 })
 
 

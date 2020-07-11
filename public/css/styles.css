@@ -4,7 +4,6 @@
 
 html {
   background-color: #333;
-  /* background: linear-gradient(to top, #bdc3c7, #2c3e50); */
   background: linear-gradient(to bottom, #1f1c2c, #928dab);
   min-height: 100vh;
   font-family: 'helvetica neue';
@@ -132,7 +131,6 @@ footer {
   text-align: center;
 }
 
-
 .form-padding{
   padding: 0 15px 0 0;
 }
@@ -200,6 +198,10 @@ footer {
   transform: translate(-100%, -50%);
   opacity: 0;
   transition: opacity 0.6s ease-in-out;
+}
+
+.del-btn:hover{
+  cursor: pointer;
 }
 
 .del-btn:focus, .del-btn:active{
