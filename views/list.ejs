@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+
+
+    <div class="box" id="heading">
+        <h1> <%= today %> </h1>
+    </div>
+
+
+
+    <div class="box">
+
+
+
+        <% newItems.forEach((item) => { %>
+
+        <div class="item">
+
+            <form action="/delete" method="POST">
+                <div class="delete">
+                    <!-- <input type="checkbox" name="checkbox" value="<%= item._id %>" class="" onChange="this.form.submit()"> -->
+                    <button type="submit" name="checkbox" value="<%= item._id %>" class="del-btn">x</button>
+                    <p> <%= item.name %> </p>
+                </div>
+            </form>
+
+
+            <div class="round">
+                <input type="checkbox" id="checkbox<%= item._id %>" onchange="this.form.submit()" name="greenCheckbox" value="<%= item._id %>" />
+                <label for="checkbox<%= item._id %>"></label>
+            </div>
+
+
+        </div>
+
+        <% }) %>
+
+
+
+        <form action="/" method="POST" class="newItem form-padding">
+            <input type="text" name="newItem" placeholder="New Item" autocomplete="off">
+            <button type="submit">+</button>
+        </form>
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="js/javaScript.js"></script>
+</body>
+
+</html>
