@@ -38,16 +38,11 @@ const Item = mongoose.model("Item", itemSchema)
 
 // default items in list....
 const item1 = new Item({
-    name: "Bringfood"
-})
-const item2 = new Item({
-    name: "Prepfood"
-})
-const item3 = new Item({
-    name: "Eatfood"
+    name: "Add Todo"
 })
 
-const itemArray = [item1, item2, item3]
+
+const itemArray = [item1]
 
 
 //custom list schema...
