@@ -16,7 +16,7 @@ let today = ""
 
 
 // connecting to the DB
-mongoose.connect("mongodb://localhost:27017/itemsDB", {
+mongoose.connect("mongodb+srv://selva-nov-21:titanium2018@cluster0.muqyb.mongodb.net/itemsDB", {
     useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false
 })
     .then(() => {
@@ -166,15 +166,9 @@ app.post("/delete", (req, res) => {
             res.redirect(`/${listName}`)
         })
 
-        // List.findOne({name : listName}, (err, foundList) => {
-        //     if(!err){
-        //         foundList.filter
-        //     }
-        // })
     }
 
 })
-
 
 
 //setting up server

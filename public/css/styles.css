@@ -197,7 +197,7 @@ footer {
   left: 0;
   transform: translate(-100%, -50%);
   opacity: 0;
-  transition: opacity 0.6s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
 }
 
 .del-btn:hover{
