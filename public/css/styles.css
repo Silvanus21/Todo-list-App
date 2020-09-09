@@ -7,6 +7,14 @@ html {
   background: linear-gradient(to bottom, #1f1c2c, #928dab);
   min-height: 100vh;
   font-family: 'helvetica neue';
+
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 h1 {
@@ -24,7 +32,6 @@ h1 {
 
 #heading {
   background-color: #A683E3;
-  /* background-color: #006767; */
   text-align: center;
 }
 
@@ -35,13 +42,9 @@ h1 {
   padding: 0 50px 0 5px;
   justify-content: space-between;
   align-items: center;
-  /* border-bottom: 1px solid #F1F1F1; */
   border-bottom: 1px solid #ccc;
 }
 
-/* .item:last-child {
-  border-bottom: 0;
-} */
 
 .newItem{
   min-height: 70px;
@@ -210,4 +213,17 @@ footer {
 
 .item:hover .del-btn{
   opacity: 1;
+}
+
+@media screen and (max-width: 485px){
+  .box {
+    width: 87%;
+    margin: 50px auto;
+  }
+}
+
+@media screen and (max-width: 460px){
+  input[type="text"]{
+    width: 80%;
+  }
 }
